@@ -49,7 +49,7 @@ def __generateIndex(records, keys, replace):
 	
 	if hasKeyAlready and replace:
 		index[indexKey] = record
-	else if not hasKeyAlready:
+	elif not hasKeyAlready:
 		index[indexKey] = record
 
 	return index
@@ -117,7 +117,7 @@ def __fireEventDict(event, localParams=None):
 
 		if isinstance(params, list):
 			function(*localParams, *params)
-		else if isinstance(params, dict):
+		elif isinstance(params, dict):
 			function(*localParams, **params)
 	else:
 		function(*localParams)
