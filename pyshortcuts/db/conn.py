@@ -24,7 +24,7 @@ import random
 import signal
 
 from sshtunnel import SSHTunnelForwarder
-from utils.getcl import parseArguments as parse_cl_args 
+from pyshortcuts.cl.getcl import parseArguments as parse_cl_args 
 
 def _openDbMySql(properties):
 
