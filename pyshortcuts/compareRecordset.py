@@ -115,10 +115,10 @@ def __fireEventDict(event, localParams=None):
 	if hasParams:
 		params = event["params"]
 
-		if isinstance(params, list):
-			function(*localParams, *params)
-		elif isinstance(params, dict):
-			function(*localParams, **params)
+		#if isinstance(params, list):
+		#	function(*localParams, *params)
+		#elif isinstance(params, dict):
+		#	function(*localParams, **params)
 	else:
 		function(*localParams)
 
