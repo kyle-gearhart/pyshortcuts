@@ -8,4 +8,5 @@ setup(name='pyshortcuts',
       author='Kyle A Gearhart',
       author_email='kagearhart@gmail.com',
       license='GPLv3',
-      packages=['cl','csv', 'db'])
+      packages=['pyshortcuts'],
+      install_requires=['pymysql', 'sshtunnel'])
