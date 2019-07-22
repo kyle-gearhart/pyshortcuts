@@ -10,12 +10,14 @@ class JobTableActions:
 
     def jobIsRunning(self, jobName):
 
-        sql = """SELECT * FROM %s 
-            WHERE job_name = %s
+        sql = """SELECT * FROM """ + self.tableName + """
+             WHERE job_name = %s
                 AND job_running = 1"""
 
+        print sql
+
         with self.database.cursor() as c:
-            rows = c.execute(sql, (self.tableName, jobName))
+            rows = c.execute(sql, (jobName))
 
             if rows:
                 return True
@@ -24,7 +26,7 @@ class JobTableActions:
 
     def startJob(self, jobName, jobPlatform):
 
-        sql = """INSERT INTO %s ( 
+        sql = """INSERT INTO """ + self.tableName + """ ( 
             job_name, 
             job_started, 
             job_running,
@@ -34,25 +36,28 @@ class JobTableActions:
                 1,
                 %s
             )"""
+
         print sql
 
         with self.database.cursor() as c:
-            c.execute(sql, (self.tableName, jobName, jobPlatform))
+            c.execute(sql, (jobName, jobPlatform))
             return c.lastrowid
         
         return -1
 
     def finishJob(self, jobId, success, message):
 
-        sql = """UPDATE %s
-            SET job_finished = NOW(),
+        sql = """UPDATE """ + self.tableName + """
+             SET job_finished = NOW(),
                 job_running = 0,
                 job_successs = %s,
                 job_message = %s
             WHERE job_id = %s"""
 
+        print sql
+        
         with self.database.cursor() as c:
-            c.execute(sql, (self.tableName, success, message, jobId))
+            c.execute(sql, (success, message, jobId))
             return True
 
         return False
