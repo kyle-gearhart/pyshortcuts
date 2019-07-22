@@ -1,6 +1,6 @@
 
-import Job
-import JobInvokeRequest
+from Job import Job
+from JobInvokeRequest import JobInvokeRequest
 
 class JobHandler:
 
@@ -12,7 +12,7 @@ class JobHandler:
 
         if not isinstance(request, JobInvokeRequest):
             raise Exception("Expected @request to be an instance of JobInvokeRequest")
-
+            
         if request.getSingleton():
             if self.actions.jobIsRunning(request.getJobName()):
                 raise Exception("Job %s is already in progress!" %(request.getJobName()))
