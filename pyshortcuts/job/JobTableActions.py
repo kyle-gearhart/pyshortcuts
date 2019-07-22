@@ -17,7 +17,7 @@ class JobTableActions:
         print sql
 
         with self.database.cursor() as c:
-            rows = c.execute(sql, (jobName,))
+            rows = c.execute(sql, (jobName))
 
             if rows:
                 return True
@@ -55,7 +55,7 @@ class JobTableActions:
             WHERE job_id = ?""" % (self.tableName)
 
         with self.database.cursor() as c:
-            c.execute(sql, (success, message, jobId,))
+            c.execute(sql, (success, message, jobId))
             return True
 
         return False
