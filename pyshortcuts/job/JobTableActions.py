@@ -39,16 +39,17 @@ class JobTableActions:
         
         return -1
 
-    def finishJob(self, jobId, message):
+    def finishJob(self, jobId, success, message):
 
         sql = """UPDATE %s
             SET job_finished = NOW(),
                 job_running = 0,
+                job_successs = ?,
                 job_message = ?
             WHERE job_id = ?""" % (self.tableName)
 
         with self.database.cursor() as c:
-            c.execute(sql, (message, jobId,))
+            c.execute(sql, (success, message, jobId,))
             return True
 
         return False
