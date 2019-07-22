@@ -14,6 +14,8 @@ class JobTableActions:
             WHERE job_name = ?
                 AND job_running = 1""" % (self.tableName)
 
+        print sql
+
         with self.database.cursor() as c:
             rows = c.execute(sql, (jobName,))
 
