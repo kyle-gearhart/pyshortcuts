@@ -4,7 +4,7 @@
 class JobInvokeRequest:
     def __init__(self, JobName, Singleton):
 
-        if not isintance(JobName, basestring):
+        if not isinstance(JobName, basestring):
             raise Exception("Invalid job name")
 
         if not isinstance(Singleton, bool):
