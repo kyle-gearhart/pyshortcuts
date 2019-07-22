@@ -13,9 +13,7 @@ class JobTableActions:
         sql = """SELECT * FROM """ + self.tableName + """
              WHERE job_name = %s
                 AND job_running = 1"""
-
-        print sql
-
+                
         with self.database.cursor() as c:
             rows = c.execute(sql, (jobName))
 
@@ -37,8 +35,6 @@ class JobTableActions:
                 %s
             )"""
 
-        print sql
-
         with self.database.cursor() as c:
             c.execute(sql, (jobName, jobPlatform))
             return c.lastrowid
@@ -50,12 +46,10 @@ class JobTableActions:
         sql = """UPDATE """ + self.tableName + """
              SET job_finished = NOW(),
                 job_running = 0,
-                job_successs = %s,
+                job_success = %s,
                 job_message = %s
             WHERE job_id = %s"""
 
-        print sql
-        
         with self.database.cursor() as c:
             c.execute(sql, (success, message, jobId))
             return True
