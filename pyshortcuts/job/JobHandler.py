@@ -1,4 +1,6 @@
 
+import platform
+
 from Job import Job
 from JobInvokeRequest import JobInvokeRequest
 
@@ -17,7 +19,8 @@ class JobHandler:
             if self.actions.jobIsRunning(request.getJobName()):
                 raise Exception("Job %s is already in progress!" %(request.getJobName()))
 
-        jobId = self.actions.startJob(request.getJobName())
+        jobId = self.actions.startJob(request.getJobName(),
+            platform.node())
 
         return Job(jobId, self.actions.finishJob)
 

@@ -12,4 +12,4 @@ class Job:
             message = "Job finished"
 
         if not self.finish(self.jobId, success, message):
-            raise Exception("JobId %s could not be finished" % (jobId, ))
+            raise Exception("JobId %s could not be finished" % (self.jobId, ))

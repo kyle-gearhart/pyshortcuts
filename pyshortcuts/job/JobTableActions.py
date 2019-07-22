@@ -22,19 +22,21 @@ class JobTableActions:
         
         return False
 
-    def startJob(self, jobName):
+    def startJob(self, jobName, jobPlatform):
 
         sql = """INSERT INTO %s ( 
             job_name, 
             job_started, 
-            job_running ) VALUES (
+            job_running,
+            job_platform ) VALUES (
                 ?,
                 NOW(),
-                1
+                1,
+                ?
             )""" % (self.tableName)
 
         with self.database.cursor() as c:
-            c.execute(sql, (jobName,))
+            c.execute(sql, (jobName, jobPlatform))
             return c.lastrowid
         
         return -1
