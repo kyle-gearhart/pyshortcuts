@@ -50,10 +50,10 @@ class JobTableActions:
                 job_message = %s
             WHERE job_id = %s"""
 
-        print sql
-        
         with self.database.cursor() as c:
             c.execute(sql, (success, message, jobId))
+            self.database.commit()
+
             return True
 
         return False

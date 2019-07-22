@@ -15,8 +15,6 @@ class JobHandler:
         if not isinstance(request, JobInvokeRequest):
             raise Exception("Expected @request to be an instance of JobInvokeRequest")
 
-        print "checking singleton status..."
-
         if request.getIsSingleton():
             if self.actions.jobIsRunning(request.getJobName()):
                 raise Exception("Job %s is already in progress!" % request.getJobName())
