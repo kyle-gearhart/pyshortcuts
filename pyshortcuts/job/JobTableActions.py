@@ -11,13 +11,11 @@ class JobTableActions:
     def jobIsRunning(self, jobName):
 
         sql = """SELECT * FROM %s 
-            WHERE job_name = ?
-                AND job_running = 1""" % (self.tableName)
-
-        print sql
+            WHERE job_name = %s
+                AND job_running = 1"""
 
         with self.database.cursor() as c:
-            rows = c.execute(sql, (jobName))
+            rows = c.execute(sql, (self.tableName, jobName))
 
             if rows:
                 return True
@@ -31,16 +29,15 @@ class JobTableActions:
             job_started, 
             job_running,
             job_platform ) VALUES (
-                ?,
+                %s,
                 NOW(),
                 1,
-                ?
-            )""" % (self.tableName)
-
+                %s
+            )"""
         print sql
 
         with self.database.cursor() as c:
-            c.execute(sql, (jobName, jobPlatform))
+            c.execute(sql, (self.tableName, jobName, jobPlatform))
             return c.lastrowid
         
         return -1
@@ -50,12 +47,12 @@ class JobTableActions:
         sql = """UPDATE %s
             SET job_finished = NOW(),
                 job_running = 0,
-                job_successs = ?,
-                job_message = ?
-            WHERE job_id = ?""" % (self.tableName)
+                job_successs = %s,
+                job_message = %s
+            WHERE job_id = %s"""
 
         with self.database.cursor() as c:
-            c.execute(sql, (success, message, jobId))
+            c.execute(sql, (self.tableName, success, message, jobId))
             return True
 
         return False
