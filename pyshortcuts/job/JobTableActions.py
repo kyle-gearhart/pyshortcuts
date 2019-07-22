@@ -35,6 +35,8 @@ class JobTableActions:
                 ?
             )""" % (self.tableName)
 
+        print sql
+
         with self.database.cursor() as c:
             c.execute(sql, (jobName, jobPlatform))
             return c.lastrowid
