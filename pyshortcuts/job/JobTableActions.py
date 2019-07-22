@@ -13,7 +13,7 @@ class JobTableActions:
         sql = """SELECT * FROM """ + self.tableName + """
              WHERE job_name = %s
                 AND job_running = 1"""
-                
+
         with self.database.cursor() as c:
             rows = c.execute(sql, (jobName))
 
@@ -50,6 +50,8 @@ class JobTableActions:
                 job_message = %s
             WHERE job_id = %s"""
 
+        print sql
+        
         with self.database.cursor() as c:
             c.execute(sql, (success, message, jobId))
             return True
