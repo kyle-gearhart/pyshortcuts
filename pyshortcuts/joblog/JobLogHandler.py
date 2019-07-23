@@ -1,8 +1,8 @@
 
 import platform
 
-from Job import Job
-from JobInvokeRequest import JobInvokeRequest
+from JobLog import Job
+from JobLogInvokeRequest import JobLogInvokeRequest
 
 class JobLogHandler:
 
@@ -14,8 +14,8 @@ class JobLogHandler:
 
         jobName = request.getJobName()
 
-        if not isinstance(request, JobInvokeRequest):
-            raise Exception("Expected @request to be an instance of JobInvokeRequest")
+        if not isinstance(request, JobLogInvokeRequest):
+            raise Exception("Expected @request to be an instance of JobLogInvokeRequest")
 
         if request.getIsSingleton():
             if self.actions.jobIsRunning(jobName):
@@ -27,5 +27,5 @@ class JobLogHandler:
         if jobId < 0:
             raise Exception("Job %s could not be marked as started" % jobName)
 
-        return Job(jobId, self.actions.finishJob)
+        return JobLog(jobId, self.actions.finishJob)
 
