@@ -2,7 +2,7 @@
 import platform
 
 from JobLog import JobLog
-from JobLogInvokeRequest import JobLogInvokeRequest
+from JobLogRequest import JobLogRequest
 
 class JobLogHandler:
 
@@ -14,7 +14,7 @@ class JobLogHandler:
 
         jobName = request.getJobName()
 
-        if not isinstance(request, JobLogInvokeRequest):
+        if not isinstance(request, JobLogRequest):
             raise Exception("Expected @request to be an instance of JobLogInvokeRequest")
 
         if request.getIsSingleton():
