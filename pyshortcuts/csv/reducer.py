@@ -30,7 +30,7 @@ arg_map = {
 try:
 	opts, oargs = getopt.getopt(sys.argv[1:], "O:F:I:", [ "outputFile", "fields", "inputFile" ])
 except getopt.GetoptError as err:
-	print str(err)
+	print(str(err))
 	sys.exit(2)
 
 cmd_opts = dict(opts)
@@ -40,8 +40,8 @@ for map_key, map_value in arg_map.iteritems():
 
 	for opt_key in opt_keys:
 		if opt_key in cmd_opts:
-			print args
-			print cmd_opts
+			print(args)
+			print(cmd_opts)
 			args[map_key] = cmd_opts[opt_key]
 
 if args["fields"]:

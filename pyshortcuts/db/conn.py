@@ -100,7 +100,7 @@ def closeDbTunnels():
 def closeDbConnections():
 	
 	for connection in _openConnections:
-		print "Will not shut down"
+		print("Will not shut down")
 
 	return	
 
