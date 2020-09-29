@@ -1,8 +1,8 @@
 
 import platform
 
-from JobLog import JobLog
-from JobLogRequest import JobLogRequest
+from .JobLog import JobLog
+from .JobLogRequest import JobLogRequest
 
 class JobLogHandler:
 
