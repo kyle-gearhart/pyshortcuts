@@ -43,7 +43,7 @@ def _parseCommandLine(arguments):
 
 		if shortName is None and longName is not None:
 			parser.add_argument("--" + longName, **splat)
-		elif short_name is not None and long_name is None:
+		elif shortName is not None and long_name is None:
 			parser.add_argument("-" + shortName, **splat)
 		else:
 			parser.add_argument("-" + shortName, "--" + longName, **splat)
