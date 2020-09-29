@@ -27,74 +27,97 @@ import argparse
 import os
 import sys
 
+class ExpectedArgument:
+	def __init__(self, defaultValue, shortName, longName, flag=False, environmentVariableName):
+		self.defaultValue = defaultValue
+		self.shortName = shortName
+		self.longName = longName
+		self.flag = flag
+		self.environmentVariableName = environmentVariableName
 
-DEFAULT_VALUE = 0
-SOPT_NAME = 1
-LOPT_NAME = 2
-IS_FLAG = 3
-ENV_NAME = 4
+	def getDefaultValue():
+		return self.defaultValue
 
+	def getShortName():
+		return self.shortName
 
-def createArgument(defaultValue, shortName, longName, flag, environmentName):
+	def getLongName():
+		return self.longName
+
+	def getEnvironmentVariableName():
+		return self.environmentVariableName
 	
-	return [ defaultValue, shortName, longName, flag, environmentName]
+	def isFlag():
+		return self.flag == True
 
-
-def parseArguments(args):
+class GetCommandLineArguments:
 
 	functors = [ _parseCommandLine, _parseEnvironmentVariables, _parseDefaultValues ]
 
-	parsed_args = _createEmptyArgs(args)
+	def __init__(self, *expectedArguments):
 
-	for functor in functors:
+		self.expectedArguments = expectedArguments
+		self.emptyArguments = { }
 
-		functor_args = functor(args)
-		_mergeArgs(parsed_args, functor_args)
+		for expectedArgument in expectedArguments:
+			if not isinstance(expectedArgument, ExpectedArgument):
+				raise Exception('Must be an instance of ExpectedArgument')
 
-	return parsed_args
+			self.emptyArguments[expectedArgument.getLongName()] = None
+
+	def __call__(self):
+
+		emptyArguments = self.emptyArguments.copy()
+
+		for functor in self.functors:
+
+			functorArguments = functor(self.expectedArguments)
+			_mergeArgs(emptyArguments, functorArguments)
+
+		return emptyArguments
 
 
-def _parseCommandLine(args):
+def _parseCommandLine(arguments):
 	parser = argparse.ArgumentParser()
 
-	for argument in args:
-		short_name = argument[SOPT_NAME]
-		long_name = argument[LOPT_NAME]
+	for argument in arguments:
+		shortName = argument.getShortName()
+		longName = argument.getLongName()
 
 		splat = {  }
 
-		if argument[IS_FLAG]:
+		if argument.isFlag():
 			splat["action"] = "store_true"
 		else:
 			splat["action"] = "store"
 
-		if short_name is None and long_name is not None:
-			parser.add_argument("--" + long_name, **splat)
+		if shortName is None and longName is not None:
+			parser.add_argument("--" + longName, **splat)
 		elif short_name is not None and long_name is None:
-			parser.add_argument("-" + short_name, **splat)
+			parser.add_argument("-" + shortName, **splat)
 		else:
-			parser.add_argument("-" + short_name, "--" + long_name, **splat)
+			parser.add_argument("-" + shortName, "--" + longName, **splat)
 
 	cl_args, unknown_cl_args = parser.parse_known_args(sys.argv[1:])
 
 	return cl_args.__dict__
 
-def _parseEnvironmentVariables(args):
+def _parseEnvironmentVariables(expectedArguments):
 
 	env_args = { }
 
-	for argument in args:
+	for expectedArgument in expectedArguments:
 		
-		if argument[ENV_NAME] is None:
+		if expectedArguments.getEnvironmentVariableName() is None:
 			continue
 
-		if type(argument[ENV_NAME]) == type(True):
-			env_name = arugment[LOPT_NAME]
+		if type(expectedArgument.getEnvironmentVariableName()) == type(True):
+			env_name = expectedArgument.getLongName()
 		else:
-			env_name = argument[ENV_NAME]
+			env_name = expectedArgument.getEnvironmentVariableName()
 
 		if env_name in os.environ:
-			env_args[argument[LOPT_NAME]] = os.environ[env_name]
+			env_args[expectedArgument.getLongName()] = os.environ[env_name]
 
 	return env_args
 
@@ -102,19 +125,10 @@ def _parseDefaultValues(args):
 
 	default_args = { }
 
-	for argument in args:
-		default_args[argument[2]] = argument[0]
+	for expectedArgument in args:
+		default_args[expectedArgument.getLongName()] = expectedArgument.getDefaultValue()
 
 	return default_args
-
-def _createEmptyArgs(args):
-
-	empty_args = { }
-
-	for argument in args:
-		empty_args[argument[LOPT_NAME]] = None
-
-	return empty_args
 
 def _mergeArgs(mergeTo, mergeFrom):
 

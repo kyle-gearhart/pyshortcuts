@@ -24,7 +24,6 @@ import random
 import signal
 
 from sshtunnel import SSHTunnelForwarder
-from pyshortcuts.cl.getcl import parseArguments as parse_cl_args 
 
 def _openDbMySql(properties):
 
@@ -54,26 +53,6 @@ _openConnections = []
 
 _signalSet = False
 
-def openDbClArgs():
-
-	return [
-		[ None, "D", "db_host", False, "DBHOST"],
-		[ 3306, "p", "db_port", False, "DBPORT"],
-		[ None, "u", "db_user", False, "DBUSER"],
-		[ None, "x", "db_password", False, "DBPASSWORD"],
-		[ None, "n", "db_name", False, "DBNAME"],
-		[ None, "H", "ssh_host", False, "SSHHOST"],
-		[ None, "P", "ssh_port", False, "SSHPORT"],
-		[ "ubuntu", "U", "ssh_user", False, "SSHUSER"],
-		[ None, "K", "ssh_pkey", False, "SSHPKEY"]
-	]
-
-def openDbConnectionFromCLArgs(platform):
-	
-	args = parse_cl_args(openDbClArgs())
-	
-	
-	return openDbConnection(platform, args)
 
 def openDbConnection(platform, properties):
 
