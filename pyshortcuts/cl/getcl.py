@@ -28,7 +28,7 @@ import os
 import sys
 
 class ExpectedArgument:
-	def __init__(self, defaultValue, shortName, longName, flag=False, environmentVariableName):
+	def __init__(self, defaultValue, shortName, longName, flag, environmentVariableName):
 		self.defaultValue = defaultValue
 		self.shortName = shortName
 		self.longName = longName
