@@ -4,7 +4,7 @@
 class JobLogRequest:
     def __init__(self, JobName, Singleton):
 
-        if not isinstance(JobName, basestring):
+        if not isinstance(JobName, str):
             raise Exception("Invalid job name")
 
         if not isinstance(Singleton, bool):
