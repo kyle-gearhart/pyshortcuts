@@ -118,7 +118,7 @@ def _createEmptyArgs(args):
 
 def _mergeArgs(mergeTo, mergeFrom):
 
-	for key, value in mergeFrom.iteritems():
+	for key, value in mergeFrom.items():
 
 		if key in mergeTo and mergeTo[key] is None:
 			mergeTo[key] = value

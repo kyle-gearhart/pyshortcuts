@@ -75,7 +75,7 @@ def __compareFieldsMap(lhs, rhs, fields):
 	
 	isMatch = True
 
-	for fieldLhs, fieldRhs in fields.iteritems():
+	for fieldLhs, fieldRhs in fields.items():
 		if fieldLhs not in lhs:
 			raise Exception("Field [%s] not found in @lhs" % (fieldLhs))
 

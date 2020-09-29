@@ -35,7 +35,7 @@ except getopt.GetoptError as err:
 
 cmd_opts = dict(opts)
 
-for map_key, map_value in arg_map.iteritems():
+for map_key, map_value in arg_map.items():
 	opt_keys = ["-" + map_value, "--" + map_key]
 
 	for opt_key in opt_keys:
