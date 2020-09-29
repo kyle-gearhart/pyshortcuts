@@ -102,6 +102,7 @@ def _handleTunnel(properties):
 
 
 		tunnel = SSHTunnelForwarder((tunnelProperties["ssh_host"], int(tunnelProperties["ssh_port"])), **tunnel_args)
+		tunnel.daemon_forward_servers = True
 		tunnel.start()
 		
 		tunnelProperties["db_host"] = "127.0.0.1"
