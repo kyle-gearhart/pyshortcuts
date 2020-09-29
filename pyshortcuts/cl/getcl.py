@@ -91,26 +91,26 @@ def _mergeArgs(mergeTo, mergeFrom):
 
 
 class ExpectedArgument:
-	def __init__(self, defaultValue, shortName, longName, flag, environmentVariableName):
+	def __init__(self, defaultValue, shortName, longName, environmentVariableName, flag=False):
 		self.defaultValue = defaultValue
 		self.shortName = shortName
 		self.longName = longName
-		self.flag = flag
 		self.environmentVariableName = environmentVariableName
+		self.flag = flag
 
-	def getDefaultValue():
+	def getDefaultValue(self):
 		return self.defaultValue
 
-	def getShortName():
+	def getShortName(self):
 		return self.shortName
 
-	def getLongName():
+	def getLongName(self):
 		return self.longName
 
-	def getEnvironmentVariableName():
+	def getEnvironmentVariableName(self):
 		return self.environmentVariableName
 	
-	def isFlag():
+	def isFlag(self):
 		return self.flag == True
 
 class GetCommandLineArguments:
