@@ -58,7 +58,7 @@ def _parseEnvironmentVariables(expectedArguments):
 
 	for expectedArgument in expectedArguments:
 		
-		if expectedArguments.getEnvironmentVariableName() is None:
+		if expectedArgument.getEnvironmentVariableName() is None:
 			continue
 
 		if type(expectedArgument.getEnvironmentVariableName()) == type(True):
