@@ -27,56 +27,6 @@ import argparse
 import os
 import sys
 
-class ExpectedArgument:
-	def __init__(self, defaultValue, shortName, longName, flag, environmentVariableName):
-		self.defaultValue = defaultValue
-		self.shortName = shortName
-		self.longName = longName
-		self.flag = flag
-		self.environmentVariableName = environmentVariableName
-
-	def getDefaultValue():
-		return self.defaultValue
-
-	def getShortName():
-		return self.shortName
-
-	def getLongName():
-		return self.longName
-
-	def getEnvironmentVariableName():
-		return self.environmentVariableName
-	
-	def isFlag():
-		return self.flag == True
-
-class GetCommandLineArguments:
-
-	functors = [ _parseCommandLine, _parseEnvironmentVariables, _parseDefaultValues ]
-
-	def __init__(self, *expectedArguments):
-
-		self.expectedArguments = expectedArguments
-		self.emptyArguments = { }
-
-		for expectedArgument in expectedArguments:
-			if not isinstance(expectedArgument, ExpectedArgument):
-				raise Exception('Must be an instance of ExpectedArgument')
-
-			self.emptyArguments[expectedArgument.getLongName()] = None
-
-	def __call__(self):
-
-		emptyArguments = self.emptyArguments.copy()
-
-		for functor in self.functors:
-
-			functorArguments = functor(self.expectedArguments)
-			_mergeArgs(emptyArguments, functorArguments)
-
-		return emptyArguments
-
-
 def _parseCommandLine(arguments):
 	parser = argparse.ArgumentParser()
 
@@ -139,3 +89,52 @@ def _mergeArgs(mergeTo, mergeFrom):
 
 	return
 
+
+class ExpectedArgument:
+	def __init__(self, defaultValue, shortName, longName, flag, environmentVariableName):
+		self.defaultValue = defaultValue
+		self.shortName = shortName
+		self.longName = longName
+		self.flag = flag
+		self.environmentVariableName = environmentVariableName
+
+	def getDefaultValue():
+		return self.defaultValue
+
+	def getShortName():
+		return self.shortName
+
+	def getLongName():
+		return self.longName
+
+	def getEnvironmentVariableName():
+		return self.environmentVariableName
+	
+	def isFlag():
+		return self.flag == True
+
+class GetCommandLineArguments:
+
+	functors = [ _parseCommandLine, _parseEnvironmentVariables, _parseDefaultValues ]
+
+	def __init__(self, *expectedArguments):
+
+		self.expectedArguments = expectedArguments
+		self.emptyArguments = { }
+
+		for expectedArgument in expectedArguments:
+			if not isinstance(expectedArgument, ExpectedArgument):
+				raise Exception('Must be an instance of ExpectedArgument')
+
+			self.emptyArguments[expectedArgument.getLongName()] = None
+
+	def __call__(self):
+
+		emptyArguments = self.emptyArguments.copy()
+
+		for functor in self.functors:
+
+			functorArguments = functor(self.expectedArguments)
+			_mergeArgs(emptyArguments, functorArguments)
+
+		return emptyArguments
